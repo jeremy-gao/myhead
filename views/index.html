@@ -1,0 +1,86 @@
+%rebase base
+<div class=" admin-content">
+  
+    <div class="daohang">
+      <ul>
+        <li><button type="button" class="am-btn am-btn-default am-radius am-btn-xs"> 首页</button> </li>
+        <li><button type="button" class="am-btn am-btn-default am-radius am-btn-xs">帮助中心<a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close="">×</a></button></li>
+        <li><button type="button" class="am-btn am-btn-default am-radius am-btn-xs">集群信息<a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close="">×</a></button></li>
+        <li><button type="button" class="am-btn am-btn-default am-radius am-btn-xs">索引管理<a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close="">×</a></button></li>
+
+      </ul>
+</div>
+  
+  
+<div class="admin">
+   <div class="admin-index">
+      <dl data-am-scrollspy="{animation: 'slide-right', delay: 100}">
+        <dt class="qs"><i class="am-icon-users"></i></dt>
+        <dd><a href="#">{{ state["status"].capitalize() }}</a></dd>
+        <dd class="f12">集群健康度</dd>
+      </dl>
+      <dl data-am-scrollspy="{animation: 'slide-right', delay: 300}">
+        <dt class="cs"><i class="am-icon-area-chart"></i></dt>
+        <dd>{{ state["unassigned_shards"] }}</dd>
+        <dd class="f12">未激活的分片数</dd>
+      </dl>
+      <dl data-am-scrollspy="{animation: 'slide-right', delay: 600}">
+        <dt class="hs"><i class="am-icon-shopping-cart"></i></dt>
+        <dd>{{ state["active_primary_shards"] }}</dd>
+        <dd class="f12">主节点激活分片数</dd>
+      </dl>
+      <dl data-am-scrollspy="{animation: 'slide-right', delay: 900}">
+        <dt class="ls"><i class="am-icon-cny"></i></dt>
+        <dd>{{ state["active_shards"] }}</dd>
+        <dd class="f12">集群总激活分片数</dd>
+      </dl>
+    </div>
+    <div class="admin-biaoge">
+      <div class="xinxitj"><a>最大索引前20</a></div>
+      <table class="am-table">
+        <thead>
+          <tr>
+            <th>health</th>
+            <th>status</th>
+            <th>index</th>
+            <th>docs.count</th>
+            <th>store.size</th>
+            <th>create.date</th>
+          </tr>
+        </thead>
+    <tbody>
+    %if signal == 0:
+      %for line in indices.split('\n'):
+      <tr>
+              <td>{{ line.split()[0].capitalize() }}</td>
+              <td>{{line.split()[1].capitalize()}}</td>
+              <td><a href="#">{{line.split()[2]}}</a></td>
+              <td>{{line.split()[3]}}</td>
+              <td>{{line.split()[4]}}KB</td>
+              <td>{{line.split()[5]}}</td>
+            </tr> 
+      %end
+    %end
+  </tbody>
+      </table>
+    </div>
+
+<div class="shuju">
+      %for line in allocate:
+        %if len(line) != 0:
+        <div class="shujutow">
+        <dl>
+          <dt>节点名称：  {{ line.split()[8] }}</dt>
+          <dt>物理地址：    {{ line.split()[7] }}</dt>
+          <dt>索引大小：  {{ line.split()[1].upper() }}</dt>
+          <dt>磁盘大小：  {{ line.split()[4].upper() }}</dt>
+        </dl>
+        <ul>
+          <h2>{{ line.split()[5] }}%</h2>
+          <li>所用磁盘百分比</li>
+        </ul>
+        </div>
+        %end
+      %end
+</div>
+%rebase base
