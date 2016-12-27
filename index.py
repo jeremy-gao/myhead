@@ -16,7 +16,7 @@ urllistnode = httpurl + cf.get('api', 'urllistnode')
 urlallocate = httpurl + cf.get('api','urlallocate')
 indicesurl = httpurl + cf.get('api','indicesurl')
 url = 'curl -s ' + '"' + httpurl + cf.get('api', 'indexsizeurl') + '"'
-cmd = '|sort -rnk5|head -n ' + cf.get('limit', 'limit')
+cmd = '|sort -rnk4|head -n ' + cf.get('limit', 'limit')
 
 @route('/assets/<filename:path>')
 def send_static(filename):
